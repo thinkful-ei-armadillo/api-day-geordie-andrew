@@ -1,31 +1,50 @@
 'use strict';
 
 const api = (function(){
-	const BASE_URL = 'https://thinkful-list-api.herokuapp.com/andrew';
-	function getItems(){
-		return fetch(`${BASE_URL}/items`);
-	}
+  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/andrew';
+  function getItems(){
+    return fetch(`${BASE_URL}/items`);
+  }
     
-	function createItem(name){
-		const newItem = JSON.stringify({
-			name
-		});
+  function createItem(name){
+    const newItem = JSON.stringify({
+      name
+    });
 
-		const options = {
-			method: 'POST',
-			headers: new Headers({
-				'Content-Type': 'application/json'
-			}),
-			body: newItem
-		};
+    const options = {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: newItem
+    };
         
 
         
-		return fetch(`${BASE_URL}/items`, options);
-	}
+    return fetch(`${BASE_URL}/items`, options);
+  }
 
-	return {
-		getItems,
-		createItem
-	};
+  function updateItem(id, updateData) {
+    const newData = JSON.stringify({
+      updateData
+    });
+
+    const options = {
+      method: 'PATCH',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: newData
+    };
+	
+    return fetch(`${BASE_URL}/items/[${id}]`, options);
+  }
+
+
+  return {
+    getItems,
+    createItem,
+    updateItem,
+    
+  };
 }());
