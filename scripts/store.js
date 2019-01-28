@@ -9,6 +9,7 @@ const store = (function(){
   };
 
   const findById = function(id) {
+    console.log(id);
     return this.items.find(item => item.id === id);
   };
 
@@ -20,7 +21,8 @@ const store = (function(){
 
   function findAndUpdate(id, newData) {
     const item = this.findById(id);
-    return Object.assign(item, newData);
+    console.log(item);
+    Object.assign(item, newData);
   }
 
 

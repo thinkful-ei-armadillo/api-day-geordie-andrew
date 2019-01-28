@@ -31,13 +31,13 @@ const api = (function(){
 
     const options = {
       method: 'PATCH',
-      headers: new Headers({
+      headers: {
         'Content-Type': 'application/json'
-      }),
-      body: newData
+	  },
+      body: JSON.stringify(updateData)
     };
-	
-    return fetch(`${BASE_URL}/items/[${id}]`, options);
+    console.log(updateData);
+    return fetch(`${BASE_URL}/items/${id}`, options);
   }
 
 
