@@ -68,7 +68,6 @@ const shoppingList = (function(){
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
       api.createItem(newItemName)
-        .then(res => res.json())
         .then(newItem => {
           store.addItem(newItem);
           render();
@@ -88,13 +87,6 @@ const shoppingList = (function(){
 	  const newItem = store.findById(id);
 	  console.log(newItem);
 	  api.updateItem(id, {checked: !newItem.checked})
-        .then(res => {
-          if (!res.ok){
-            console.log(res);
-		  }
-          else {
-            return res.json();
-          }})
         .then(() => {
           store.findAndUpdate(id, {checked: !newItem.checked });
           render();
@@ -109,7 +101,6 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       // delete the item
       api.deleteItem(id)
-        .then(res => res.json())
         .then(() => {
           store.findAndDelete(id);
           console.log('delete ran');
@@ -124,8 +115,7 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
       api.updateItem(id, itemName)
-	  .then(res => res.json())
-        .then(id => {
+        .then(() => {
           store.findAndUpdate(id, itemName);
           render();
         });

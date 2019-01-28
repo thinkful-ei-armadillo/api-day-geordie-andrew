@@ -3,7 +3,22 @@
 const api = (function(){
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/andrew';
   function getItems(){
-    return fetch(`${BASE_URL}/items`);
+    return listApiFetch(`${BASE_URL}/items`);
+  }
+
+  function listApiFetch(...args) {
+    let error = false;
+    return fetch(...args)
+      .then(res => {
+        if (!res.ok) {
+          error = true;
+        }
+        return res.json();
+      })
+      .then(data => {
+        if (error) throw new Error(data.message);
+        return data;
+      });
   }
     
   function createItem(name){
@@ -17,12 +32,11 @@ const api = (function(){
         'Content-Type': 'application/json'
       }),
       body: newItem
-    };
-        
-
-        
-    return fetch(`${BASE_URL}/items`, options);
+    };     
+    return listApiFetch(`${BASE_URL}/items`, options);
   }
+
+  
 
   function updateItem(id, updateData) {
     const newData = JSON.stringify({
@@ -33,11 +47,11 @@ const api = (function(){
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
-	  },
+      },
       body: JSON.stringify(updateData)
     };
     console.log(updateData);
-    return fetch(`${BASE_URL}/items/${id}`, options);
+    return listApiFetch(`${BASE_URL}/items/${id}`, options);
   }
 
   function deleteItem(id) {
@@ -47,7 +61,7 @@ const api = (function(){
         'Content-Type': 'application/json'
       }
     };
-    return fetch(`${BASE_URL}/items/${id}`, options);
+    return listApiFetch(`${BASE_URL}/items/${id}`, options);
   }
 
 
