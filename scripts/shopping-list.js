@@ -71,6 +71,9 @@ const shoppingList = (function(){
         .then(newItem => {
           store.addItem(newItem);
           render();
+        })
+        .catch(err => {
+          $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     });
   }
@@ -84,12 +87,15 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-	  const newItem = store.findById(id);
-	  console.log(newItem);
-	  api.updateItem(id, {checked: !newItem.checked})
+      const newItem = store.findById(id);
+      console.log(newItem);
+      api.updateItem(id, {checked: !newItem.checked})
         .then(() => {
           store.findAndUpdate(id, {checked: !newItem.checked });
           render();
+        })
+        .catch(err => {
+          $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     });
   }
@@ -105,6 +111,9 @@ const shoppingList = (function(){
           store.findAndDelete(id);
           console.log('delete ran');
           render();
+        })
+        .catch(err => {
+          $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     });
   }
@@ -118,6 +127,9 @@ const shoppingList = (function(){
         .then(() => {
           store.findAndUpdate(id, itemName);
           render();
+        })
+        .catch(err => {
+          $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     });
   }
